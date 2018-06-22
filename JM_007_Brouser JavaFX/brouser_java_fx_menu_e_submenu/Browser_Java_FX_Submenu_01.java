@@ -186,7 +186,7 @@ public class Browser_Java_FX_Submenu_01 extends javax.swing.JPanel {
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/home_controle_menus_norte/imagens/html.png"))); // NOI18N
         jLabel5.setToolTipText("Setar Html puro");
 
-        jLabel6.setText("FX");
+        jLabel6.setText("Brouser JavaFX - JMarySystems");
 
         javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
         jPanel28.setLayout(jPanel28Layout);

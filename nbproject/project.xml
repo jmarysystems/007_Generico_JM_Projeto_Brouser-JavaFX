@@ -52,7 +52,7 @@ Contributor(s):
             </extension>
         </buildExtensions>
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
-            <name>Generico_JM_007_Brouser JavaFX</name>
+            <name>Generico_JM_007_Brouser_JavaFX</name>
             <source-roots>
                 <root id="src.dir"/>
                 <root id="src.JM_007_Brouser%20JavaFX.dir"/>

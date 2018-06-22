@@ -5,9 +5,13 @@
 
 package brouser_java_fx;
 
+import java.net.URI;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.util.List;
+import java.util.Map;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -31,6 +35,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebHistory;
 import javafx.scene.web.WebHistory.Entry;
 import javafx.scene.web.WebView;
+import jdk.nashorn.api.scripting.JSObject;
 
 /**
  *
@@ -47,7 +52,7 @@ public class WebViewPane extends Pane {
         BrowserFX.history = BrowserFX.eng.getHistory();
         
 ////////////////////////////////////////////////////////////////////////////////          
-        opcoesHtppObtidas( BrowserFX.eng );
+        //opcoesHtppObtidas( BrowserFX.eng, url );
 ////////////////////////////////////////////////////////////////////////////////        
         
         BrowserFX.view.getEngine().load( url );
@@ -69,7 +74,7 @@ public class WebViewPane extends Pane {
         BrowserFX.history = BrowserFX.eng.getHistory();
         
 ////////////////////////////////////////////////////////////////////////////////          
-        opcoesHtppObtidas( BrowserFX.eng );
+        //opcoesHtppObtidas( BrowserFX.eng, url );
 ////////////////////////////////////////////////////////////////////////////////          
              
         Media m = new Media( url );
@@ -93,10 +98,6 @@ public class WebViewPane extends Pane {
         BrowserFX.eng = BrowserFX.view.getEngine();
         BrowserFX.history = BrowserFX.eng.getHistory();
         
-////////////////////////////////////////////////////////////////////////////////          
-        opcoesHtppObtidas( BrowserFX.eng );
-////////////////////////////////////////////////////////////////////////////////          
-        
         String nova_url = "";
         if( ( url.startsWith("http://") == true )  || ( url.startsWith("https://") ) ){
             
@@ -107,6 +108,10 @@ public class WebViewPane extends Pane {
             nova_url = "http://" + url;
         }
         
+////////////////////////////////////////////////////////////////////////////////          
+        opcoesHtppObtidas( BrowserFX.eng, nova_url );
+////////////////////////////////////////////////////////////////////////////////          
+                        
         ////// view.getEngine().loadContent
         BrowserFX.view.getEngine().load( nova_url );
  
@@ -126,8 +131,17 @@ public class WebViewPane extends Pane {
         BrowserFX.eng = BrowserFX.view.getEngine();
         BrowserFX.history = BrowserFX.eng.getHistory();
         
+        /*eng*/                       
+        String nova_url = "";
+        if( ( url.startsWith("http://") == true )  || ( url.startsWith("https://") ) ){
+            nova_url = url;
+        }
+        else{
+            nova_url = "http://" + url;
+        }
+        
 ////////////////////////////////////////////////////////////////////////////////          
-        opcoesHtppObtidas( BrowserFX.eng );
+        opcoesHtppObtidas( BrowserFX.eng, nova_url );
 ////////////////////////////////////////////////////////////////////////////////          
         
         /*             
@@ -157,14 +171,7 @@ public class WebViewPane extends Pane {
             //view.setMinSize(500, 400);
             //view.setPrefSize(500, 400);
             
-            /*eng*/                       
-            String nova_url = "";
-        if( ( url.startsWith("http://") == true )  || ( url.startsWith("https://") ) ){
-            nova_url = url;
-        }
-        else{
-            nova_url = "http://" + url;
-        }
+            
             BrowserFX.eng.load( nova_url );
             
             //eng.loadContent("");
@@ -247,12 +254,11 @@ public class WebViewPane extends Pane {
         BrowserFX.history = BrowserFX.eng.getHistory();
         
 ////////////////////////////////////////////////////////////////////////////////          
-        opcoesHtppObtidas( BrowserFX.eng );
+        //opcoesHtppObtidas( BrowserFX.eng, url );
 ////////////////////////////////////////////////////////////////////////////////          
         
-        String nova_url = "";
         ////// view.getEngine().load
-        BrowserFX.view.getEngine().loadContent( nova_url );
+        BrowserFX.view.getEngine().loadContent( url );
  
         GridPane grid = new GridPane();
         GridPane.setConstraints(BrowserFX.view, 0, 0, 2, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS);
@@ -280,9 +286,26 @@ public class WebViewPane extends Pane {
         }
     } catch( Exception e ){ e.printStackTrace(); } }
     
-    private void opcoesHtppObtidas(WebEngine webEngine) { try{
+    private void opcoesHtppObtidas(WebEngine webEngine, String url_str ) { try{
 
         webEngine.setJavaScriptEnabled(true);
+        
+        Map<String, List<String>> headers = new LinkedHashMap<String, List<String>>();
+        headers.put("Set-Cookie", Arrays.asList( "c_user=4" ) );
+        URI uri = URI.create("http://mysite.com");
+        java.net.CookieHandler.getDefault().put(uri, headers);
+        
+        JSObject jdoc = (JSObject) webEngine.getDocument(); 
+                
+        //JSObject window = (JSObject) webEngine.executeScript("window");
+        //window.setMember("app", new JavaApplication());
+        //JSObject history = (JSObject) webEngine.executeScript("history");
+        //webEngine.setUserAgent("Mozilla/5.0 (Windows NT 6.1)");
+        
+        //Element p = (Element) ebEngine.executeScript("document.getElementById('para')");
+        //p.setAttribute("style", "font-weight: bold");
+        
+        //webEngine.executeScript("changeBgColor();");
         
         System.out.println( webEngine.getUserAgent() );
         
